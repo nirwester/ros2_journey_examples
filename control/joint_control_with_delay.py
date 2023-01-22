@@ -11,7 +11,7 @@ import matplotlib.pyplot as plt
 k_kp = 5.0
 k_dt_actuation = 0.05
 k_dt_feedback = 0.05
-k_control_period = 0.01  # 20Hz
+k_control_period = 0.01  # 100Hz
 k_acc_lim = 0.5
 k_target_position = 0.05
 k_plot_time_limit = 1.5
