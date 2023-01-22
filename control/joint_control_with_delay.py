@@ -1,3 +1,8 @@
+# Instructions: modify the Inputs parameters in the script how you like,
+# then execute it with the command # "python3 joint_control_with_delay.py".
+# This will display a graph showing the time-evolution of the position
+# and the velocity of the joint.
+
 import numpy as np
 import matplotlib.pyplot as plt
 
