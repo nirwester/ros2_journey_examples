@@ -27,7 +27,7 @@ SOFTWARE.
 using namespace std::chrono_literals;
 
 ServiceServer::ServiceServer(const rclcpp::NodeOptions& options)
-    : rclcpp::Node("service_client", options) {
+    : rclcpp::Node("service_server", options) {
   service_ = create_service<std_srvs::srv::Empty>(
       "test_service", std::bind(&ServiceServer::serviceCallback, this, std::placeholders::_1,
                           std::placeholders::_2));
