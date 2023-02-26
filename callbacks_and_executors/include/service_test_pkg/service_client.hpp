@@ -28,7 +28,7 @@ SOFTWARE.
 #include "std_srvs/srv/empty.hpp"
 
 /**
- * Node implementing the service server
+ * Node implementing the service client
  */
 class ServiceClient : public rclcpp::Node {
  public:
