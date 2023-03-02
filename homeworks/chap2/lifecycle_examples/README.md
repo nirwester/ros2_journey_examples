@@ -15,10 +15,15 @@ Terminal 2
 EXPECTED OUTPUT:
 
 [component_container_mt-1] [INFO] [1677784853.602283758] [node1]: Configured
+
 [component_container_mt-1] [INFO] [1677784853.602738883] [node2]: Configured
+
 [component_container_mt-1] [INFO] [1677784853.603004783] [node1]: Activated
+
 [component_container_mt-1] [INFO] [1677784853.603173078] [node2]: Activated
+
 [component_container_mt-1] [INFO] [1677784853.603276840] [manager]: Initialization completed
+
 
 NOTE:
 The code calls a service from a service callback, hence a dedicated callback group
