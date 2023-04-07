@@ -1,0 +1,66 @@
+An example of implementation could involve the following interfaces:
+
+- Commands topic: commands are generated asynchronously and hence can be forwarded to the brain at any time using a topic.
+  The content of the topic could be either a string or an integer associated to an enumerator representing
+  the possible commands for the robot.
+
+- Say sentence: generating a sentence could take a considerable amount of time, and might need to be interrupted.
+  For these reasons, an action server is better suited for the task. The exchanged data format could look something like this:
+
+string sentence   #(goal)
+---
+bool success #(result)
+---
+float32 progress #(feedback)
+
+- Make coffee: As for the previous case, making a coffee might take a lot of time and might be preempted,
+  hence we will use an action server. The action could be implemented as:
+
+int32 ESPRESSO=1
+int32 MACCHIATO=2
+int32 DOPPIO=3
+int32 CAPPUCCINO=4
+int32 MOCACCINO=5
+int32 CAFFELLATTE=6
+int32 LUNGO=7
+int32 AMERICANO=8
+int32 CORRETTO=9
+int32 DECAFFEINATO=10
+int32 LATTE_MACCHIATO=11
+
+int32 type_of_coffee 1
+---
+bool success
+---
+float32 progress
+
+As you might have noticed, you are dealing with an Italian robot. If you don't specify what kind of coffee you want,
+you will get an espresso. Otherwise, to know the available kinds of coffee, you can look at the constants that are
+specified together with the action definition. We could also have used a string for this purpose, which would have been
+more readable, but slightly less efficient.
+
+- Go to Pose: Moving from one pose in the house to a different one might take quite a bit of time (actually in my mini apartment it won't, but I assume this robot is owned by some rich guy with a villa). Since we said that answering the bell has precedence on other commands, the action could also be stopped and replaced with a different one. To satisfy these requirements, we will again use an action server. The action file could be implemented as:
+
+geometry_msgs/PoseStamped target_pose
+---
+geometry_msgs/PoseStamped reached_pose
+bool success
+---
+geometry_msgs/PoseStamped current_pose
+
+In this case we are including a standard message (geometry_msgs/PoseStamped) into the definition of our own custom
+action definition.
+
+- Activate camera: Starting the execution of a camera is usually a quick operation. The brain would probably also need to know if this operation fails (the robot shouldn't be allowed to drive blindly around the house). Because of this, a service could be an adequate interface. The SetBool service defined in std_srvs could work for our purpose:
+
+bool data # e.g. for hardware enabling / disabling
+---
+bool success   # indicate successful run of triggered service
+string message # informational, e.g. for error messages
+
+Even if we don't need the "message" field, it is a good idea to stick to a standard interface when possible.
+
+- Images: The camera produces data asynchronously, it is consequently a good idea to use a topic for this interface.
+Possible data types include sensor_msgs::msg::PointCloud2 or sensor_msgs::msg::Image depending on the camera type.
+
+
