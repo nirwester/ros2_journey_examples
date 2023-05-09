@@ -1,0 +1,112 @@
+ros2 topic echo /add_two_ints/_service_event
+
+info:
+  event_type: 0
+  stamp:
+    sec: 1683651456
+    nanosec: 141893883
+  client_gid:
+  - 1
+  - 15
+  - 149
+  - 130
+  - 11
+  - 6
+  - 215
+  - 186
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 19
+  - 3
+  sequence_number: 1
+request:
+- a: 1
+  b: 2
+response: []
+---
+info:
+  event_type: 1
+  stamp:
+    sec: 1683651456
+    nanosec: 141911569
+  client_gid:
+  - 1
+  - 15
+  - 149
+  - 130
+  - 11
+  - 6
+  - 215
+  - 186
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 18
+  - 4
+  sequence_number: 1
+request:
+- a: 1
+  b: 2
+response: []
+---
+info:
+  event_type: 2
+  stamp:
+    sec: 1683651456
+    nanosec: 141965295
+  client_gid:
+  - 1
+  - 15
+  - 149
+  - 130
+  - 11
+  - 6
+  - 215
+  - 186
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 18
+  - 4
+  sequence_number: 1
+request: []
+response:
+- sum: 3
+---
+info:
+  event_type: 3
+  stamp:
+    sec: 1683651456
+    nanosec: 142014034
+  client_gid:
+  - 1
+  - 15
+  - 149
+  - 130
+  - 11
+  - 6
+  - 215
+  - 186
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 19
+  - 3
+  sequence_number: 1
+request: []
+response:
+- sum: 3
+
