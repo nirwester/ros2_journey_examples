@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>service_with_introspection</name>
+  <name>lazy_subscriber</name>
   <version>0.0.0</version>
-  <description>Package to exemplify the usage of the service introspection</description>
+  <description>Package to exemplify the usage of the subscription callbacks</description>
   <maintainer email="bassamarco91@gmail.com">Marco Bassa</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <depend>example_interfaces </depend>
+  <depend>std_msgs</depend>
   <depend>rclcpp</depend>
 
   <export>
