@@ -1,4 +1,4 @@
-Compile with "colcon build"
+Compile with "colcon build" note: requires ROS 2 >= Iron
 source install/setup.sh
 
 Terminal 1: ros2 run lazy_subscriber publisher
