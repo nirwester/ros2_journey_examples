@@ -4,6 +4,22 @@ colcon build
 
 NOTE: Requires ROS2 >= Humble
 
+## Setup using docker (optional)
+
+
+Setup a docker environment:
+
+```
+docker build -t test_adaptation --pull .
+```
+
+Execute the docker environment:
+
+```
+docker run -it --rm test_adaptation
+
+```
+
 # Run with intra process communication
 
 source install/setup.bash
