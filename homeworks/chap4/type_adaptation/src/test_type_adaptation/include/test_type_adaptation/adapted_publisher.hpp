@@ -44,7 +44,6 @@ class AdaptedPublisher : public rclcpp::Node {
 
   rclcpp::Publisher<PointCloudAdapted>::SharedPtr publisher_;
   rclcpp::Publisher<PointCloudAdapted>::SharedPtr normal_publisher_;
-  rclcpp::Publisher<sensor_msgs::msg::PointCloud2>::SharedPtr msg_publisher_;
   rclcpp::TimerBase::SharedPtr publish_timer_;
 };
 

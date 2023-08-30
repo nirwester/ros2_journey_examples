@@ -1,7 +1,3 @@
-#pragma once
-
-#include <pcl/point_cloud.h>
-#include <pcl/point_types.h>
 /*
 The MIT License (MIT)
 
@@ -24,6 +20,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+#pragma once
+
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
 #include <pcl_conversions/pcl_conversions.h>
 
 #include "rclcpp/rclcpp.hpp"
@@ -32,7 +32,8 @@ SOFTWARE.
 
 /// Adapter for point cloud types
 template <>
-struct rclcpp::TypeAdapter<pcl::PointCloud<pcl::PointXYZ>, sensor_msgs::msg::PointCloud2> {
+struct rclcpp::TypeAdapter<pcl::PointCloud<pcl::PointXYZ>,
+                           sensor_msgs::msg::PointCloud2> {
   /// @brief IsSpecialized
   using is_specialized = std::true_type;
   /// @brief CustomType
@@ -40,18 +41,19 @@ struct rclcpp::TypeAdapter<pcl::PointCloud<pcl::PointXYZ>, sensor_msgs::msg::Poi
   /// @brief RosMessageType
   using ros_message_type = sensor_msgs::msg::PointCloud2;
 
-  static void convert_to_ros_message(
-      const pcl::PointCloud<pcl::PointXYZ>& input, sensor_msgs::msg::PointCloud2& output) {
+  static void
+  convert_to_ros_message(const pcl::PointCloud<pcl::PointXYZ> &input,
+                         sensor_msgs::msg::PointCloud2 &output) {
     std::cout << "Converting to ROS" << std::endl << std::flush;
     pcl::toROSMsg(input, output);
   }
 
-  static void convert_to_custom(
-      const sensor_msgs::msg::PointCloud2& source, pcl::PointCloud<pcl::PointXYZ>& destination) {
+  static void convert_to_custom(const sensor_msgs::msg::PointCloud2 &source,
+                                pcl::PointCloud<pcl::PointXYZ> &destination) {
     std::cout << "Converting to PCL" << std::endl << std::flush;
     pcl::fromROSMsg(source, destination);
   }
 };
 
-using PointCloudAdapted =
-    rclcpp::TypeAdapter<pcl::PointCloud<pcl::PointXYZ>, sensor_msgs::msg::PointCloud2>;
+using PointCloudAdapted = rclcpp::TypeAdapter<pcl::PointCloud<pcl::PointXYZ>,
+                                              sensor_msgs::msg::PointCloud2>;
