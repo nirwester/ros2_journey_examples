@@ -32,18 +32,21 @@ namespace journey {
  * Node subscribing to a pointcloud both as adapted and not adapted type
  */
 class AdaptedSubscriber : public rclcpp::Node {
- public:
+public:
   /// Class constructor
-  AdaptedSubscriber(const rclcpp::NodeOptions& options);
+  AdaptedSubscriber(const rclcpp::NodeOptions &options);
 
- private:
+private:
   void pointcloudAdaptedCallback(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud);
 
   void pointcloudNormalCallback(sensor_msgs::msg::PointCloud2::SharedPtr cloud);
 
+  void printPointcloud(const pcl::PointCloud<pcl::PointXYZ> &pcl_cloud);
+
   rclcpp::Subscription<PointCloudAdapted>::SharedPtr subscriber_;
 
-  rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr normal_subscriber_;
+  rclcpp::Subscription<sensor_msgs::msg::PointCloud2>::SharedPtr
+      normal_subscriber_;
 };
 
-}  // namespace journey
+} // namespace journey

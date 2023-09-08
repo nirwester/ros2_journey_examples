@@ -33,32 +33,58 @@ using namespace std;
 
 namespace journey {
 
-AdaptedSubscriber::AdaptedSubscriber(const rclcpp::NodeOptions& options)
+AdaptedSubscriber::AdaptedSubscriber(const rclcpp::NodeOptions &options)
     : rclcpp::Node("adapted_subscriber", options) {
-  subscriber_ = create_subscription<PointCloudAdapted>("topic_with_adapted_subscriber",
-      rclcpp::SensorDataQoS(),
-      std::bind(&AdaptedSubscriber::pointcloudAdaptedCallback, this, std::placeholders::_1));
-  // Note: if subscribing with the normal ROS type to a topic whose publisher uses a custom type,
-  // msgs won't go through beacause of the type mismatch, unless the intra process communication is
-  // disabled.
-  auto normal_sub_options = rclcpp::SubscriptionOptionsWithAllocator<std::allocator<void>>();
-  // normal_sub_options.use_intra_process_comm = rclcpp::IntraProcessSetting::Disable;
+  subscriber_ = create_subscription<PointCloudAdapted>(
+      "topic_with_adapted_subscriber", rclcpp::SensorDataQoS(),
+      std::bind(&AdaptedSubscriber::pointcloudAdaptedCallback, this,
+                std::placeholders::_1));
+  // Note: if subscribing with the normal ROS type to a topic whose publisher
+  // uses a custom type, msgs won't go through beacause of the type mismatch,
+  // unless the intra process communication is disabled.
+  auto normal_sub_options =
+      rclcpp::SubscriptionOptionsWithAllocator<std::allocator<void>>();
+  // normal_sub_options.use_intra_process_comm =
+  // rclcpp::IntraProcessSetting::Disable;
   normal_subscriber_ = create_subscription<sensor_msgs::msg::PointCloud2>(
       "topic_without_adapted_subscriber", rclcpp::SensorDataQoS(),
-      std::bind(&AdaptedSubscriber::pointcloudNormalCallback, this, std::placeholders::_1),
+      std::bind(&AdaptedSubscriber::pointcloudNormalCallback, this,
+                std::placeholders::_1),
       normal_sub_options);
 }
 
-void AdaptedSubscriber::pointcloudAdaptedCallback(pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
-  RCLCPP_INFO(get_logger(), "Adapted sub received cloud with address: 0x%" PRIXPTR "\n",
-      reinterpret_cast<std::uintptr_t>(cloud.get()));
+void AdaptedSubscriber::printPointcloud(
+    const pcl::PointCloud<pcl::PointXYZ> &pcl_cloud) {
+  if (pcl_cloud.points.size() != 2) {
+    RCLCPP_ERROR(get_logger(), "Message corrupted!");
+    return;
+  }
+  RCLCPP_INFO_STREAM(
+      get_logger(),
+      "Received point 1 x: "
+          << pcl_cloud.points[0].x << " y " << pcl_cloud.points[0].y << " z "
+          << pcl_cloud.points[0].z << ", Point 2 x: " << pcl_cloud.points[1].x
+          << " y " << pcl_cloud.points[1].y << " z " << pcl_cloud.points[1].z);
 }
 
-void AdaptedSubscriber::pointcloudNormalCallback(sensor_msgs::msg::PointCloud2::SharedPtr cloud) {
-  RCLCPP_INFO(get_logger(), "Normal sub received cloud with address: 0x%" PRIXPTR "\n",
-      reinterpret_cast<std::uintptr_t>(cloud.get()));
+void AdaptedSubscriber::pointcloudAdaptedCallback(
+    pcl::PointCloud<pcl::PointXYZ>::Ptr cloud) {
+  RCLCPP_INFO(get_logger(),
+              "Adapted sub received cloud with address: 0x%" PRIXPTR "\n",
+              reinterpret_cast<std::uintptr_t>(cloud.get()));
+  printPointcloud(*cloud);
 }
 
-}  // namespace journey
+void AdaptedSubscriber::pointcloudNormalCallback(
+    sensor_msgs::msg::PointCloud2::SharedPtr cloud) {
+  RCLCPP_INFO(get_logger(),
+              "Normal sub received cloud with address: 0x%" PRIXPTR " ",
+              reinterpret_cast<std::uintptr_t>(cloud.get()));
+  pcl::PointCloud<pcl::PointXYZ> pcl_cloud;
+  pcl::fromROSMsg(*cloud, pcl_cloud);
+  printPointcloud(pcl_cloud);
+}
+
+} // namespace journey
 
 RCLCPP_COMPONENTS_REGISTER_NODE(journey::AdaptedSubscriber)

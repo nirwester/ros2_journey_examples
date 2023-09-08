@@ -47,7 +47,8 @@ void AdaptedPublisher::publish() {
                                const std::string& screen_msg) {
     std::unique_ptr<pcl::PointCloud<pcl::PointXYZ>> point_cloud(
         new pcl::PointCloud<pcl::PointXYZ>());
-    point_cloud->push_back(pcl::PointXYZ(0.0, 0.0, 0.0));
+    point_cloud->push_back(pcl::PointXYZ(1.0, 2.0, 3.0));
+    point_cloud->push_back(pcl::PointXYZ(4.0, 5.0, 6.0));
     std::weak_ptr<std::remove_pointer<decltype(publisher.get())>::type> captured_pub = publisher;
     auto pub_ptr = captured_pub.lock();
     RCLCPP_INFO(get_logger(), "Publishing to %s topic cloud with address: 0x%" PRIXPTR "\n",
