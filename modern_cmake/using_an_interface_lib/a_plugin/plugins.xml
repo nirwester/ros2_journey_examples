@@ -1,0 +1,5 @@
+<library path="plugin_implementation">
+    <class type="example::PointObstacle" base_class_type="example::Obstacle">
+        <description>An obstacle mad of a single point.</description>
+    </class>
+</library>
