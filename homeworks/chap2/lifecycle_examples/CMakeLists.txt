@@ -15,18 +15,18 @@ include_directories(
 )
 
 set(dependencies
-  lifecycle_msgs
-  rclcpp
-  rclcpp_lifecycle
-  rclcpp_components
-  std_srvs
+  ${lifecycle_msgs_TARGETS}
+  rclcpp::rclcpp
+  rclcpp_lifecycle::rclcpp_lifecycle
+  rclcpp_components::component
+  ${std_srvs_TARGETS}
 )
 
 add_library(manager SHARED
   src/manager.cpp
 )
 
-ament_target_dependencies(manager
+target_link_libraries(manager PRIVATE
   ${dependencies}
 )
 
@@ -34,7 +34,7 @@ add_library(managed_node SHARED
   src/managed_node.cpp
 )
 
-ament_target_dependencies(managed_node
+target_link_libraries(managed_node PRIVATE
   ${dependencies}
 )
 
@@ -57,9 +57,5 @@ install(TARGETS
 
 install(DIRECTORY include/ DESTINATION include/)
 install(DIRECTORY launch DESTINATION share/${PROJECT_NAME}/)
-
-ament_export_include_directories(include)
-ament_export_libraries(manager managed_node)
-ament_export_dependencies(${dependencies})
 
 ament_package()

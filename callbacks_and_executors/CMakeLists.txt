@@ -4,6 +4,7 @@ project(service_test_pkg)
 add_compile_options(-Wall -Wextra -Wpedantic -std=c++17)
 
 find_package(ament_cmake REQUIRED)
+find_package(rclcpp REQUIRED)
 find_package(std_srvs REQUIRED)
 
 set(CPP_FILES
@@ -19,9 +20,9 @@ target_include_directories(${PROJECT_NAME}
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 )
 
-ament_target_dependencies(${PROJECT_NAME} PUBLIC
-  rclcpp
-  std_srvs
+target_link_libraries(${PROJECT_NAME} PUBLIC
+  rclcpp::rclcpp
+  ${std_srvs_TARGETS}
 )
 
 install(TARGETS ${PROJECT_NAME} EXPORT ${PROJECT_NAME}Targets)

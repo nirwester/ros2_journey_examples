@@ -6,13 +6,23 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
 add_executable(publisher src/publisher.cpp)
-ament_target_dependencies(publisher rclcpp std_msgs)
+
+target_link_libraries(publisher PRIVATE
+  rclcpp::rclcpp
+  ${std_msgs_TARGETS}
+)
 
 add_executable(subscriber src/subscriber.cpp)
-ament_target_dependencies(subscriber rclcpp std_msgs)
+target_link_libraries(subscriber PRIVATE
+  rclcpp::rclcpp
+  ${std_msgs_TARGETS}
+)
 
 add_executable(lazy_subscriber src/lazy_subscriber.cpp)
-ament_target_dependencies(lazy_subscriber rclcpp std_msgs)
+target_link_libraries(lazy_subscriber PRIVATE
+  rclcpp::rclcpp
+  ${std_msgs_TARGETS}
+)
 
 install(TARGETS
   publisher
