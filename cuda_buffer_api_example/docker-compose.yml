@@ -1,0 +1,52 @@
+services:
+  publisher:
+    image: lyrical_native_demo:local
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ipc: host
+    pid: host
+    network_mode: host
+    environment:
+      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+      - NVIDIA_VISIBLE_DEVICES=all
+    volumes:
+      - /tmp:/tmp
+    command: bash -lc "source /opt/ros/lyrical/setup.bash && source /ros2_ws/install/setup.bash && /ros2_ws/install/cuda_buffer_api_example/lib/cuda_buffer_api_example/native_gpu_publisher"
+    devices:
+        - "nvidia.com/gpu=all"
+
+  voxel_filter:
+    image: lyrical_native_demo:local
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ipc: host
+    pid: host
+    network_mode: host
+    environment:
+      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+      - NVIDIA_VISIBLE_DEVICES=all
+    volumes:
+      - /tmp:/tmp
+    command: bash -lc "source /opt/ros/lyrical/setup.bash && source /ros2_ws/install/setup.bash && /ros2_ws/install/cuda_buffer_api_example/lib/cuda_buffer_api_example/gpu_voxel_filter --ros-args -p leaf_size:=0.003"
+    devices:
+        - "nvidia.com/gpu=all"
+
+  subscriber:
+    image: lyrical_native_demo:local
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ipc: host
+    pid: host
+    network_mode: host
+    environment:
+      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+      - NVIDIA_VISIBLE_DEVICES=all
+    volumes:
+      - /tmp:/tmp
+      - ./output:/output
+    command: bash -lc "source /opt/ros/lyrical/setup.bash && source /ros2_ws/install/setup.bash && /ros2_ws/install/cuda_buffer_api_example/lib/cuda_buffer_api_example/native_gpu_subscriber --ros-args -p output_path:=/output/filtered_cloud.ply"
+    devices:
+        - "nvidia.com/gpu=all"
